@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>clousre</title>
+</head>
+<body style="background-color: #313131;">
+    <button id="orange">Orange</button>
+    <button id="green">Green</button>
+    <button id="red">Red</button>
+</body>
+<script>
+// laxical scopping
+
+    // function outer(){
+    //     let name = "Tafajjul"
+    //     // console.log("Outer", secret)
+    //     function inner(){
+    //         let secret = "123"
+    //         console.log(name)
+    //     }
+    //     inner()
+    // }
+
+    // function innerTwo(){
+    //     console.log("inner Two", name)
+    //     // console.log(secret)
+    // }
+
+    // outer();
+
+    // clouser
+
+    // function makeFunc(){
+    //     const name = "taffu"
+    //     function displayName(){
+    //         console.log(name)
+    //     }
+    //     return displayName // return laxical scope 
+    // }
+
+    // const myfunc = makeFunc()
+    // myfunc()
+
+</script>
+<script>
+    // document.getElementById("orange").onclick = function(){
+    //     document.body.style.backgroundColor = `orange`
+    // }
+
+    // document.getElementById("green").onclick = function(){
+    //     document.body.style.backgroundColor = `green`
+    // }
+
+    function clickHandler(color){
+        // document.body.style.backgroundColor = `${color}`
+
+        return function(){
+            document.body.style.backgroundColor = `${color}`
+        }
+    }
+    
+    document.getElementById('orange').onclick =clickHandler("orange")
+    document.getElementById('green').onclick =clickHandler("green")
+    document.getElementById('red').onclick =clickHandler("red")
+
+</script>
+</html>
