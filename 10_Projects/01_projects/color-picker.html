@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Picker</title>
+    <style>
+      body {
+        background-color: black;
+        color: aliceblue;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Color Picker With DOM</h1>
+
+    <button id="red">Red</button>
+    <button id="yellow">Yello</button>
+    <button id="green">Green</button>
+    <button id="random">Random color</button>
+
+    <script>
+      const red = document.getElementById("red");
+      const green = document.getElementById("green");
+      const yellow = document.getElementById("yellow");
+      const random = document.getElementById("random");
+
+      green.addEventListener("click", function changecolor() {
+        document.body.style.backgroundColor = "green";
+      });
+
+      red.addEventListener("click", function changecolor() {
+        document.body.style.backgroundColor = "red";
+      });
+
+      yellow.addEventListener("click", function changecolor() {
+        document.body.style.backgroundColor = "yellow";
+      });
+
+      function generateHexaColor() {
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          // 0 se 15 tak random integer, jisko phir hex digit (0-F) mein badla jaata hai
+          color += Math.floor(Math.random() * 16).toString(16);
+        }
+
+        return color
+      }
+
+      function randomcolor() {
+        setTimeout(() => {
+          //   console.log(Math.floor(Math.random() * 10));
+          const newColor = generateHexaColor();
+          document.body.style.backgroundColor = newColor
+        }, 1000);
+      }
+
+      random.addEventListener("click", randomcolor);
+    </script>
+  </body>
+</html>
