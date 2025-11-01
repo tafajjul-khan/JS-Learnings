@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Grade DOM App</title>
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #todo-form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    #todo-input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 300px;
+    }
+    #add-btn {
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: white;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    li.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    button.delete-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 0.25rem 0.5rem;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Production-Grade To-Do App</h1>
+
+  <!-- Form to add a new todo -->
+  <form id="todo-form">
+    <input type="text" id="todo-input" placeholder="Enter new task..." required />
+    <button type="submit" id="add-btn">Add</button>
+  </form>
+
+  <!-- List container -->
+  <ul id="todo-list"></ul>
+
+  <script>
+    // ------------------------------
+    // Production-Grade DOM JS Script
+    // ------------------------------
+
+    // Select important DOM elements
+    const todoForm = document.getElementById('todo-form'); // Form element
+    const todoInput = document.getElementById('todo-input'); // Input field
+    const todoList = document.getElementById('todo-list'); // UL element
+
+    // Load todos from localStorage or initialize empty array
+    let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+    // Function to save todos to localStorage
+    function saveTodos() {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    // Function to render todos dynamically
+    function renderTodos() {
+      // Clear existing list
+      todoList.innerHTML = '';
+
+      // Loop through todos array and create list items
+      todos.forEach((todo, index) => {
+        // Create list item element
+        const li = document.createElement('li');
+
+        // Add completed class if todo is done
+        if (todo.completed) li.classList.add('completed');
+
+        // Set inner HTML with task text and delete button
+        li.innerHTML = `
+          <span>${todo.text}</span>
+          <button class="delete-btn" data-index="${index}">Delete</button>
+        `;
+
+        // Event delegation: toggle completion on clicking task text
+        li.querySelector('span').addEventListener('click', () => {
+          todos[index].completed = !todos[index].completed;
+          saveTodos();
+          renderTodos();
+        });
+
+        // Append the list item to the UL
+        todoList.appendChild(li);
+      });
+    }
+
+    // Initial render
+    renderTodos();
+
+    // Handle form submission
+    todoForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent page reload
+
+      // Trim input and validate
+      const taskText = todoInput.value.trim();
+      if (taskText === '') {
+        alert('Please enter a valid task!');
+        return;
+      }
+
+      // Add new task to todos array
+      todos.push({ text: taskText, completed: false });
+
+      // Save and render updated list
+      saveTodos();
+      renderTodos();
+
+      // Clear input
+      todoInput.value = '';
+    });
+
+    // Event delegation for delete buttons
+    todoList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('delete-btn')) {
+        const index = e.target.dataset.index; // Get index from data attribute
+        todos.splice(index, 1); // Remove todo
+        saveTodos();
+        renderTodos();
+      }
+    });
+
+    // Optional: Accessibility improvement for Enter key in list items
+    todoList.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && e.target.tagName === 'SPAN') {
+        e.target.click();
+      }
+    });
+  </script>
+</body>
+</html>

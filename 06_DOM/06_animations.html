@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinite Road Car Animation</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    height: 100vh;
+    background: linear-gradient(180deg, #0f2027 0%, #203a43 30%, #2c5364 60%, #87ceeb 100%);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+  }
+
+  /* Stars */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* Parallax background layers */
+  .bg-layer {
+    position: absolute;
+    bottom: 250px;
+    width: 100%;
+    height: 200px;
+    will-change: transform;
+  }
+
+  /* Distant mountains */
+  .mountains {
+    background: linear-gradient(to bottom, #2c3e50 0%, #34495e 100%);
+    clip-path: polygon(0 100%, 10% 40%, 20% 60%, 30% 30%, 40% 50%, 50% 20%, 60% 45%, 70% 35%, 80% 55%, 90% 40%, 100% 70%, 100% 100%);
+    opacity: 0.6;
+  }
+
+  /* Trees layer */
+  .trees {
+    bottom: 250px;
+    height: 80px;
+    display: flex;
+    gap: 100px;
+    will-change: transform;
+  }
+
+  .tree {
+    width: 40px;
+    height: 80px;
+    background: linear-gradient(to bottom, #27ae60 0%, #229954 100%);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .tree::before {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 20px;
+    background: #8b4513;
+  }
+
+  /* Sun/Moon */
+  .celestial {
+    position: absolute;
+    top: 60px;
+    right: 100px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #ffd93d 0%, #ff6b6b 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 60px rgba(255, 217, 61, 0.8);
+    animation: celestialMove 2s ease-in-out infinite;
+  }
+
+  @keyframes celestialMove {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Clouds with parallax */
+  .clouds-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 100px;
+    will-change: transform;
+  }
+
+  .cloud::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 100px;
+    top: -25px;
+    left: 10px;
+  }
+
+  .cloud::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 100px;
+    top: -30px;
+    right: 10px;
+  }
+
+  /* Title and UI */
+  h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 2px 2px 10px rgba(0, 0, 0, 0.8);
+    font-size: 2.5rem;
+    z-index: 100;
+    letter-spacing: 2px;
+  }
+
+  /* HUD */
+  .hud {
+    position: absolute;
+    top: 90px;
+    left: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 100;
+    min-width: 200px;
+  }
+
+  .hud-item {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hud-label {
+    color: #64b5f6;
+    font-weight: bold;
+  }
+
+  .hud-value {
+    color: #4caf50;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+  }
+
+  .hud-value.boost {
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+
+  .progress-fill.boost {
+    background: linear-gradient(90deg, #ff6b6b 0%, #ffd93d 100%);
+    animation: progressGlow 0.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes progressGlow {
+    from { box-shadow: 0 0 5px rgba(255, 107, 107, 0.5); }
+    to { box-shadow: 0 0 15px rgba(255, 217, 61, 0.8); }
+  }
+
+  /* Controls */
+  .controls {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+  }
+
+  .controls button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .controls button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+  }
+
+  .controls button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .controls button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .controls button:active {
+    transform: translateY(0);
+  }
+
+  .controls button:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
+  }
+
+  .controls button:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .controls button.active {
+    background: linear-gradient(145deg, #f093fb 0%, #f5576c 100%);
+    animation: buttonGlow 0.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes buttonGlow {
+    from { box-shadow: 0 10px 25px rgba(245, 87, 108, 0.6); }
+    to { box-shadow: 0 10px 35px rgba(245, 87, 108, 1); }
+  }
+
+  /* Grass */
+  .grass {
+    position: absolute;
+    bottom: 250px;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(90deg, #27ae60 0%, #2ecc71 50%, #27ae60 100%);
+    background-size: 200% 100%;
+  }
+
+  /* Road */
+  .road {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(180deg, #444 0%, #222 100%);
+    border-top: 5px solid #666;
+    overflow: hidden;
+  }
+
+  /* Road markings */
+  .center-line {
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    width: 100%;
+    height: 10px;
+    display: flex;
+    will-change: transform;
+  }
+
+  .road-dash {
+    min-width: 100px;
+    height: 10px;
+    background: linear-gradient(90deg, transparent 0%, #ffd700 20%, #ffd700 80%, transparent 100%);
+    margin-right: 50px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+
+  /* Road edges */
+  .road-edge {
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(90deg, #fff 0%, #fff 20%, transparent 20%, transparent 25%, #fff 25%, #fff 45%, transparent 45%);
+    background-size: 200px 100%;
+    will-change: transform;
+  }
+
+  .road-edge.top {
+    top: 10px;
+  }
+
+  .road-edge.bottom {
+    bottom: 10px;
+  }
+
+  /* Car positioned at center */
+  .car-container {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100px;
+    z-index: 50;
+    transition: transform 0.3s ease;
+  }
+
+  .car-container.turn-left {
+    transform: translateX(-50%) rotate(-5deg);
+  }
+
+  .car-container.turn-right {
+    transform: translateX(-50%) rotate(5deg);
+  }
+
+  .car {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+  }
+
+  /* Car body */
+  .car-body {
+    position: absolute;
+    width: 200px;
+    height: 70px;
+    bottom: 25px;
+    background: linear-gradient(145deg, #e74c3c 0%, #c0392b 100%);
+    border-radius: 25px 25px 12px 12px;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .car-container.boost .car-body {
+    background: linear-gradient(145deg, #ff6b6b 0%, #ffd93d 50%, #ff6b6b 100%);
+    background-size: 200% 100%;
+    animation: carShine 1s linear infinite;
+  }
+
+  @keyframes carShine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* Car roof */
+  .car-roof {
+    position: absolute;
+    width: 110px;
+    height: 50px;
+    bottom: 70px;
+    left: 40px;
+    background: linear-gradient(145deg, #c0392b 0%, #922b21 100%);
+    border-radius: 25px 25px 8px 8px;
+    box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.4);
+  }
+
+  .car-container.boost .car-roof {
+    background: linear-gradient(145deg, #ffd93d 0%, #ff6b6b 100%);
+  }
+
+  /* Windows */
+  .window {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.8) 0%, rgba(50, 150, 255, 0.6) 100%);
+    border: 3px solid #2c3e50;
+  }
+
+  .window.front {
+    width: 40px;
+    height: 35px;
+    top: 8px;
+    right: 8px;
+    border-radius: 8px 15px 0 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 25% 100%);
+  }
+
+  .window.back {
+    width: 40px;
+    height: 35px;
+    top: 8px;
+    left: 8px;
+    border-radius: 15px 8px 0 0;
+    clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+  }
+
+  /* Details */
+  .headlight {
+    position: absolute;
+    width: 20px;
+    height: 12px;
+    background: radial-gradient(circle, #fff9e6 0%, #ffeb3b 100%);
+    border-radius: 50%;
+    bottom: 40px;
+    right: 8px;
+    box-shadow: 0 0 15px rgba(255, 235, 59, 0.6);
+  }
+
+  .car-container.boost .headlight {
+    box-shadow: 0 0 30px rgba(255, 235, 59, 1), 0 0 50px rgba(255, 107, 107, 0.8);
+    animation: headlightFlash 0.3s ease-in-out infinite;
+  }
+
+  @keyframes headlightFlash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .taillight {
+    position: absolute;
+    width: 15px;
+    height: 10px;
+    background: #ff0000;
+    border-radius: 50%;
+    bottom: 40px;
+    left: 8px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  }
+
+  /* Spoiler */
+  .spoiler {
+    position: absolute;
+    width: 60px;
+    height: 8px;
+    background: linear-gradient(145deg, #2c3e50 0%, #34495e 100%);
+    bottom: 92px;
+    left: 15px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .spoiler::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background: inherit;
+    bottom: -15px;
+    left: 10px;
+  }
+
+  .spoiler::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 15px;
+    background: inherit;
+    bottom: -15px;
+    right: 10px;
+  }
+
+  /* Wheels */
+  .wheel {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: radial-gradient(circle, #1c1c1c 35%, #2c3e50 36%, #2c3e50 65%, #1c1c1c 66%);
+    border-radius: 50%;
+    bottom: 0;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 8px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .wheel::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, #7f8c8d 0%, #5a6a7a 100%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+  }
+
+  .wheel::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid #34495e;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+  }
+
+  .wheel.front {
+    right: 25px;
+  }
+
+  .wheel.back {
+    left: 25px;
+  }
+
+  /* Exhaust effects */
+  .exhaust-container {
+    position: absolute;
+    bottom: 30px;
+    left: -5px;
+    width: 50px;
+    height: 30px;
+  }
+
+  .smoke {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, rgba(150, 150, 150, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  .car-container.boost .smoke {
+    animation: smoke 0.6s ease-out infinite;
+  }
+
+  @keyframes smoke {
+    0% {
+      opacity: 0.8;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-80px, -20px) scale(3);
+    }
+  }
+
+  /* Flame effect when boosting */
+  .flame {
+    position: absolute;
+    bottom: 30px;
+    left: -10px;
+    width: 30px;
+    height: 20px;
+    background: radial-gradient(ellipse at center, #ff6b6b 0%, #ffd93d 50%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(2px);
+  }
+
+  .car-container.boost .flame {
+    animation: flame 0.1s ease-in-out infinite;
+  }
+
+  @keyframes flame {
+    0%, 100% {
+      opacity: 0.9;
+      transform: scale(1) translateX(0);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.3) translateX(-5px);
+    }
+  }
+
+  /* Speed lines */
+  .speed-lines {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    left: -200px;
+    top: 0;
+    pointer-events: none;
+  }
+
+  .speed-line {
+    position: absolute;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+    opacity: 0;
+    border-radius: 2px;
+  }
+
+  .car-container.boost .speed-line {
+    animation: speedLine 0.2s ease-out infinite;
+  }
+
+  @keyframes speedLine {
+    0% {
+      opacity: 1;
+      width: 120px;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      width: 60px;
+      transform: translateX(-150px);
+    }
+  }
+
+  /* Boost shake */
+  .car-container.boost .car {
+    animation: boostShake 0.08s ease-in-out infinite;
+  }
+
+  @keyframes boostShake {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-1px, -2px) rotate(-0.5deg); }
+    50% { transform: translate(1px, 0) rotate(0.5deg); }
+    75% { transform: translate(-1px, 2px) rotate(-0.5deg); }
+  }
+
+  /* Instructions */
+  .instructions {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 100;
+    max-width: 90%;
+    box-sizing: border-box;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.5rem;
+      top: 10px;
+    }
+
+    .hud {
+      top: 60px;
+      left: 10px;
+      padding: 15px;
+      font-size: 0.9rem;
+      min-width: 150px;
+    }
+
+    .hud-value {
+      font-size: 1rem;
+    }
+
+    .controls {
+      flex-direction: column;
+      gap: 10px;
+      bottom: 20px;
+    }
+
+    .controls button {
+      padding: 12px 20px;
+      font-size: 1rem;
+    }
+
+    .instructions {
+      bottom: 200px;
+      font-size: 0.85rem;
+      padding: 10px 15px;
+    }
+
+    .car-container {
+      width: 150px;
+      height: 75px;
+    }
+
+    .car-body {
+      width: 150px;
+      height: 52px;
+    }
+
+    .car-roof {
+      width: 82px;
+      height: 37px;
+    }
+
+    .wheel {
+      width: 34px;
+      height: 34px;
+    }
+
+    .celestial {
+      width: 70px;
+      height: 70px;
+      top: 40px;
+      right: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .instructions {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="celestial"></div>
+<div class="clouds-container" id="clouds"></div>
+
+<div class="bg-layer mountains" id="mountains"></div>
+
+<div class="trees" id="trees"></div>
+
+<h1>🏁 Infinite Highway</h1>
+
+<div class="hud">
+  <div class="hud-item">
+    <span class="hud-label">SPEED:</span>
+    <span class="hud-value" id="speed-display">0</span>
+    <span style="font-size: 0.9rem;">km/h</span>
+  </div>
+  <div class="hud-item">
+    <span class="hud-label">DISTANCE:</span>
+    <span class="hud-value" id="distance-display">0</span>
+    <span style="font-size: 0.9rem;">km</span>
+  </div>
+  <div class="hud-item">
+    <span class="hud-label">MODE:</span>
+    <span class="hud-value" id="mode-display">CRUISE</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="boost-bar" style="width: 0%"></div>
+  </div>
+</div>
+
+<div class="grass" id="grass"></div>
+
+<div class="road">
+  <div class="road-edge top" id="road-edge-top"></div>
+  <div class="center-line" id="center-line"></div>
+  <div class="road-edge bottom" id="road-edge-bottom"></div>
+</div>
+
+<div class="car-container" id="car-container">
+  <div class="car">
+    <div class="spoiler"></div>
+    <div class="car-roof">
+      <div class="window front"></div>
+      <div class="window back"></div>
+    </div>
+    <div class="car-body">
+      <div class="headlight"></div>
+      <div class="taillight"></div>
+    </div>
+    <div class="wheel front" id="wheel-front"></div>
+    <div class="wheel back" id="wheel-back"></div>
+    <div class="exhaust-container">
+      <div class="smoke" style="animation-delay: 0s;"></div>
+      <div class="smoke" style="animation-delay: 0.2s;"></div>
+      <div class="smoke" style="animation-delay: 0.4s;"></div>
+    </div>
+    <div class="flame"></div>
+    <div class="speed-lines">
+      <div class="speed-line" style="top: 30%; animation-delay: 0s;"></div>
+      <div class="speed-line" style="top: 45%; animation-delay: 0.05s;"></div>
+      <div class="speed-line" style="top: 60%; animation-delay: 0.1s;"></div>
+      <div class="speed-line" style="top: 75%; animation-delay: 0.15s;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button id="left-btn" aria-label="Steer left">⬅️ LEFT</button>
+  <button id="right-btn" aria-label="Steer right">➡️ RIGHT</button>
+  <button id="boost-btn" aria-label="Toggle boost mode">🚀 BOOST</button>
+</div>
+
+<div class="instructions">
+  🎮 Arrow Keys (← →) to steer • SPACE for turbo boost • Experience infinite parallax scrolling!
+</div>
+
+<script>
+  const carContainer = document.getElementById('car-container');
+  const leftBtn = document.getElementById('left-btn');
+  const rightBtn = document.getElementById('right-btn');
+  const boostBtn = document.getElementById('boost-btn');
+  const wheelFront = document.getElementById('wheel-front');
+  const wheelBack = document.getElementById('wheel-back');
+  const centerLine = document.getElementById('center-line');
+  const roadEdgeTop = document.getElementById('road-edge-top');
+  const roadEdgeBottom = document.getElementById('road-edge-bottom');
+  const trees = document.getElementById('trees');
+  const mountains = document.getElementById('mountains');
+  const grass = document.getElementById('grass');
+  const speedDisplay = document.getElementById('speed-display');
+  const distanceDisplay = document.getElementById('distance-display');
+  const modeDisplay = document.getElementById('mode-display');
+  const boostBar = document.getElementById('boost-bar');
+  const cloudsContainer = document.getElementById('clouds');
+
+  // Game state
+  let baseSpeed = 5;
+  let currentSpeed = baseSpeed;
+  let isBoosting = false;
+  let wheelRotation = 0;
+  let roadOffset = 0;
+  let treeOffset = 0;
+  let mountainOffset = 0;
+  let grassOffset = 0;
+  let distance = 0;
+  let cloudOffset = 0;
+  let turning = null;
+
+  // Create stars
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 40 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    document.body.appendChild(star);
+  }
+
+  // Create clouds
+  for (let i = 0; i < 8; i++) {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    const width = Math.random() * 80 + 100;
+    const height = width * 0.5;
+    cloud.style.width = width + 'px';
+    cloud.style.height = height + 'px';
+    cloud.style.left = Math.random() * 120 - 10 + '%';
+    cloud.style.top = Math.random() * 35 + 5 + '%';
+    cloudsContainer.appendChild(cloud);
+  }
+
+  // Create initial road dashes - enough for seamless infinite scroll
+  const dashCount = Math.ceil(window.innerWidth / 150) + 5;
+  for (let i = 0; i < dashCount; i++) {
+    const dash = document.createElement('div');
+    dash.className = 'road-dash';
+    centerLine.appendChild(dash);
+  }
+
+  // Create trees
+  for (let i = 0; i < 30; i++) {
+    const tree = document.createElement('div');
+    tree.className = 'tree';
+    trees.appendChild(tree);
+  }
+
+  function toggleBoost() {
+    isBoosting = !isBoosting;
+    
+    if (isBoosting) {
+      currentSpeed = baseSpeed * 3;
+      carContainer.classList.add('boost');
+      boostBtn.classList.add('active');
+      boostBar.classList.add('boost');
+      modeDisplay.textContent = 'TURBO 🔥';
+      modeDisplay.classList.add('boost');
+    } else {
+      currentSpeed = baseSpeed;
+      carContainer.classList.remove('boost');
+      boostBtn.classList.remove('active');
+      boostBar.classList.remove('boost');
+      modeDisplay.textContent = 'CRUISE';
+      modeDisplay.classList.remove('boost');
+    }
+  }
+
+  function steer(direction) {
+    turning = direction;
+    if (direction === 'left') {
+      carContainer.classList.add('turn-left');
+      carContainer.classList.remove('turn-right');
+    } else if (direction === 'right') {
+      carContainer.classList.add('turn-right');
+      carContainer.classList.remove('turn-left');
+    }
+  }
+
+  function stopSteering() {
+    turning = null;
+    carContainer.classList.remove('turn-left', 'turn-right');
+  }
+
+  // Event listeners
+  leftBtn.addEventListener('mousedown', () => steer('left'));
+  rightBtn.addEventListener('mousedown', () => steer('right'));
+  leftBtn.addEventListener('mouseup', stopSteering);
+  rightBtn.addEventListener('mouseup', stopSteering);
+  leftBtn.addEventListener('mouseleave', stopSteering);
+  rightBtn.addEventListener('mouseleave', stopSteering);
+  boostBtn.addEventListener('click', toggleBoost);
+
+  let keys = {};
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      keys['ArrowLeft'] = true;
+      steer('left');
+    }
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      keys['ArrowRight'] = true;
+      steer('right');
+    }
+    if (e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      toggleBoost();
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft') {
+      keys['ArrowLeft'] = false;
+      if (!keys['ArrowRight']) {
+        stopSteering();
+      } else {
+        steer('right');
+      }
+    }
+    if (e.key === 'ArrowRight') {
+      keys['ArrowRight'] = false;
+      if (!keys['ArrowLeft']) {
+        stopSteering();
+      } else {
+        steer('left');
+      }
+    }
+  });
+
+  // Animation loop
+  function animate() {
+    // Update wheel rotation
+    wheelRotation += currentSpeed * 2;
+    wheelFront.style.transform = `rotate(${wheelRotation}deg)`;
+    wheelBack.style.transform = `rotate(${wheelRotation}deg)`;
+
+    // Update road markings with infinite scroll
+    roadOffset += currentSpeed;
+    const dashWidth = 150; // dash width + margin
+    if (roadOffset >= dashWidth) {
+      roadOffset = roadOffset % dashWidth;
+    }
+    centerLine.style.transform = `translate3d(-${roadOffset}px, -50%, 0)`;
+    roadEdgeTop.style.backgroundPosition = `${-roadOffset}px 0`;
+    roadEdgeBottom.style.backgroundPosition = `${-roadOffset}px 0`;
+
+    // Parallax scrolling for background layers
+    // Trees move faster (closer to viewer)
+    treeOffset += currentSpeed * 0.8;
+    const treeGap = 140;
+    if (treeOffset >= treeGap) {
+      treeOffset = treeOffset % treeGap;
+    }
+    trees.style.transform = `translate3d(-${treeOffset}px, 0, 0)`;
+
+    // Mountains move slower (farther away)
+    mountainOffset += currentSpeed * 0.2;
+    if (mountainOffset >= window.innerWidth) {
+      mountainOffset = mountainOffset % window.innerWidth;
+    }
+    mountains.style.transform = `translate3d(-${mountainOffset}px, 0, 0)`;
+
+    // Grass moves at medium speed
+    grassOffset += currentSpeed * 0.5;
+    grass.style.backgroundPosition = `${-grassOffset}px 0`;
+
+    // Clouds move very slowly with individual parallax speeds
+    cloudOffset += currentSpeed * 0.05;
+    if (cloudOffset > 10000) cloudOffset = 0; // Prevent overflow
+    const clouds = cloudsContainer.querySelectorAll('.cloud');
+    clouds.forEach((cloud, i) => {
+      const speed = 0.03 + (i * 0.01);
+      const offset = (cloudOffset * speed);
+      cloud.style.transform = `translate3d(-${offset}px, 0, 0)`;
+    });
+
+    // Update distance and speed display
+    distance += currentSpeed * 0.01;
+    distanceDisplay.textContent = Math.floor(distance);
+    speedDisplay.textContent = Math.floor(currentSpeed * 20);
+
+    // Update boost bar visual
+    const boostLevel = isBoosting ? 100 : 0;
+    boostBar.style.width = boostLevel + '%';
+
+    requestAnimationFrame(animate);
+  }
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      // Update dash count if needed
+      const currentDashCount = centerLine.children.length;
+      const newDashCount = Math.ceil(window.innerWidth / 150) + 5;
+      if (newDashCount > currentDashCount) {
+        for (let i = currentDashCount; i < newDashCount; i++) {
+          const dash = document.createElement('div');
+          dash.className = 'road-dash';
+          centerLine.appendChild(dash);
+        }
+      }
+    }, 100);
+  });
+
+  // Start animation
+  animate();

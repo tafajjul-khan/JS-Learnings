@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eye-Catching Footer Component</title>
+<style>
+  /* -------------------------
+     Footer General Styles
+  ------------------------- */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+  }
+
+  footer {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 4rem 2rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%);
+    animation: rotate 20s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-section {
+    flex: 1 1 200px;
+    margin: 1rem;
+    min-width: 200px;
+  }
+
+  .footer-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .footer-section h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #ff4d4d;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  .footer-section h3:hover::after {
+    width: 80px;
+  }
+
+  .footer-links, .social-icons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li, .social-icons li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  .footer-links li a:hover {
+    color: #ff4d4d;
+    transform: translateX(5px);
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .social-icons li a {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s;
+  }
+
+  .social-icons li a:hover {
+    background: #ff4d4d;
+    transform: scale(1.2) rotate(10deg);
+  }
+
+  /* Newsletter */
+  .newsletter input[type="email"] {
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    border: none;
+    margin-right: 0.5rem;
+    flex: 1;
+    outline: none;
+  }
+
+  .newsletter button {
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    border: none;
+    background: #ff4d4d;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .newsletter button:hover {
+    transform: scale(1.1);
+  }
+
+  /* Scroll to top button */
+  #scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: transform 0.3s;
+  }
+
+  #scroll-top:hover {
+    transform: scale(1.2);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-section {
+      margin: 1rem 0;
+    }
+
+    .newsletter input[type="email"] {
+      margin-bottom: 0.5rem;
+      width: 100%;
+    }
+
+    .newsletter button {
+      width: 100%;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<footer>
+  <div class="footer-container">
+    <!-- About -->
+    <div class="footer-section">
+      <h3>About Us</h3>
+      <p>We create stunning and interactive web experiences that delight users and improve engagement.</p>
+      <ul class="social-icons">
+        <li><a href="#" aria-label="Facebook">F</a></li>
+        <li><a href="#" aria-label="Twitter">T</a></li>
+        <li><a href="#" aria-label="Instagram">I</a></li>
+      </ul>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-section">
+      <h3>Newsletter</h3>
+      <p>Subscribe to get latest updates:</p>
+      <div class="newsletter" style="display:flex; gap:0.5rem; flex-wrap: wrap;">
+        <input type="email" placeholder="Your email" id="newsletter-email">
+        <button id="subscribe-btn">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button id="scroll-top">↑</button>
+
+<script>
+  // ------------------------------
+  // Footer JS Functionality
+  // ------------------------------
+
+  // Scroll-to-top functionality
+  const scrollTopBtn = document.getElementById('scroll-top');
+
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 300){
+      scrollTopBtn.style.display = 'flex';
+    } else {
+      scrollTopBtn.style.display = 'none';
+    }
+  });
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Newsletter subscription example (mock)
+  const subscribeBtn = document.getElementById('subscribe-btn');
+  subscribeBtn.addEventListener('click', () => {
+    const email = document.getElementById('newsletter-email').value;
+    if(email) {
+      alert(`Subscribed with ${email}!`);
+      document.getElementById('newsletter-email').value = '';
+    } else {
+      alert('Please enter a valid email.');
+    }
+  });
+
+</script>
+
+</body>
+</html>
