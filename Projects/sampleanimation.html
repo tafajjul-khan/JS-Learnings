@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  :root {
+    --primary: #c5a880;
+    --dark: #121212;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--dark);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+/* 3D Viewport */
+.viewport {
+    height: 100vh;
+    perspective: 2000px; /* High perspective for 3D feel */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.room-container {
+    position: relative;
+    width: 80%;
+    height: 70vh;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Card Design */
+.room-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    padding: 50px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(-500px) rotateX(10deg);
+    transition: all 1s ease-in-out;
+}
+
+.room-card.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateZ(0) rotateX(0deg);
+}
+
+/* Interior Content Layout */
+.card-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+}
+
+.text-side span {
+    color: var(--primary);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.text-side h1 {
+    font-size: 3.5rem;
+    margin: 20px 0;
+    line-height: 1;
+}
+
+.visual-side {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.inner-card-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.2);
+    transition: 1.5s ease-out;
+}
+
+.active .inner-card-img {
+    transform: scale(1); /* Image zoom-in effect on active */
+}
+
+/* Nav Bar */
+.glass-nav {
+    position: fixed;
+    top: 0; width: 100%; padding: 30px 5%;
+    display: flex; justify-content: space-between;
+    z-index: 100;
+}
+
+.nav-links { display: flex; list-style: none; }
+.nav-links li a {
+    color: white; text-decoration: none; margin-left: 40px;
+    font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase;
+}
+    </style>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectural Soul | Interior Design</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Interior Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="glass-nav">
+        <div class="logo">STUDIO<b>X</b></div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="switchRoom(0)">Living Room</a></li>
+            <li><a href="#" onclick="switchRoom(1)">Modular Kitchen</a></li>
+        </ul>
+    </nav>
+
+    <div class="viewport">
+        <div class="room-container" id="roomContainer">
+            
+            <section class="room-card active" id="room-0">
+                <div class="card-content">
+                    <div class="text-side">
+                        <span>01</span>
+                        <h1>The Velvet <br> Lounge</h1>
+                        <p>Minimalist aesthetic meets luxury comfort. We used neutral tones with gold accents to create a serene environment.</p>
+                        <button class="btn">Explore Details</button>
+                    </div>
+                    <div class="visual-side">
+                        <div class="inner-card-img" style="background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80');"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="room-card" id="room-1">
+                <div class="card-content">
+                    <div class="text-side">
+                        <span>02</span>
+                        <h1>Culinary <br> Mastery</h1>
+                        <p>A high-tech kitchen designed for efficiency. Italian marble countertops and smart storage solutions.</p>
+                        <button class="btn">View Blueprint</button>
+                    </div>
+                    <div class="visual-side">
+                        <div class="inner-card-img" style="background-image: url('https://images.unsplash.com/photo-1556912177-c54030639a60?auto=format&fit=crop&w=800&q=80');"></div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+    <script>
+        function switchRoom(index) {
+    const cards = document.querySelectorAll('.room-card');
+    
+    cards.forEach((card, i) => {
+        if (i === index) {
+            // Hum is card ko focus mein la rahe hain
+            card.classList.add('active');
+            card.style.transform = "translateZ(0) rotateX(0deg) translateX(0)";
+        } else {
+            // Baki cards piche aur side mein move ho jayenge
+            card.classList.remove('active');
+            card.style.transform = "translateZ(-800px) rotateY(45deg) translateX(100%)";
+        }
+    });
+}
+    </script>
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>

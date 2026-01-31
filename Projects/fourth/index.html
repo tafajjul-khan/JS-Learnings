@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Luxe - Interior Design Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">STUDIO LUXE</div>
+        <div class="nav-menu">
+            <a href="#home" class="nav-link active" data-section="home">HOME</a>
+            <a href="#living" class="nav-link" data-section="living">LIVING</a>
+            <a href="#kitchen" class="nav-link" data-section="kitchen">KITCHEN</a>
+            <a href="#bedroom" class="nav-link" data-section="bedroom">BEDROOM</a>
+            <a href="#contact" class="nav-link" data-section="contact">CONTACT</a>
+        </div>
+        <div class="nav-time" id="liveTime"></div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        
+        <!-- Section 1: Home / Hero -->
+        <section class="interior-section active" id="home" data-section="home">
+            <div class="section-content">
+                <div class="isometric-room home-interior">
+                    <!-- Floor Grid -->
+                    <div class="floor-grid">
+                        <div class="floor-tile" data-tile="1">
+                            <div class="furniture luxury-chair">
+                                <div class="chair-back"></div>
+                                <div class="chair-seat"></div>
+                                <div class="chair-base"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="2">
+                            <div class="furniture curved-sofa">
+                                <div class="sofa-back"></div>
+                                <div class="sofa-cushion"></div>
+                                <div class="sofa-leg"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="3">
+                            <div class="furniture marble-table">
+                                <div class="table-surface"></div>
+                                <div class="table-pedestal"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="4">
+                            <div class="furniture accent-table">
+                                <div class="accent-top"></div>
+                                <div class="accent-leg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left Wall -->
+                    <div class="wall wall-left">
+                        <div class="wall-content">
+                            <div class="bookshelf">
+                                <div class="shelf"></div>
+                                <div class="shelf"></div>
+                                <div class="shelf"></div>
+                                <div class="books"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Wall -->
+                    <div class="wall wall-right">
+                        <div class="wall-content">
+                            <div class="tv-unit">
+                                <div class="tv-screen"></div>
+                                <div class="tv-stand"></div>
+                            </div>
+                            <div class="wall-art art-1"></div>
+                            <div class="wall-art art-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lighting -->
+                    <div class="light-beam beam-1"></div>
+                    <div class="light-beam beam-2"></div>
+                </div>
+
+                <div class="section-info">
+                    <h1 class="section-title">Luxury Interior Design</h1>
+                    <p class="section-subtitle">Where elegance meets functionality</p>
+                    <button class="discover-btn" data-action="explore-home">
+                        <span>Explore Collection</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Living Room -->
+        <section class="interior-section" id="living" data-section="living">
+            <div class="section-content">
+                <div class="isometric-room living-interior">
+                    <div class="floor-grid">
+                        <div class="floor-tile" data-tile="1">
+                            <div class="furniture modern-armchair">
+                                <div class="armchair-back"></div>
+                                <div class="armchair-seat"></div>
+                                <div class="armchair-arms"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="2">
+                            <div class="furniture l-shaped-sofa">
+                                <div class="sofa-section-1"></div>
+                                <div class="sofa-section-2"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="3">
+                            <div class="furniture glass-table">
+                                <div class="glass-top"></div>
+                                <div class="metal-frame"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="4">
+                            <div class="furniture plant-decor">
+                                <div class="plant-pot"></div>
+                                <div class="plant-leaves"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wall wall-left">
+                        <div class="wall-content">
+                            <div class="large-window">
+                                <div class="window-frame"></div>
+                                <div class="window-glass"></div>
+                                <div class="window-light"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wall wall-right">
+                        <div class="wall-content">
+                            <div class="gallery-wall">
+                                <div class="art-frame frame-large"></div>
+                                <div class="art-frame frame-small"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="light-beam beam-1"></div>
+                    <div class="light-beam beam-2"></div>
+                </div>
+
+                <div class="section-info">
+                    <h2 class="section-title">Contemporary Living</h2>
+                    <p class="section-subtitle">Modern comfort & style</p>
+                    <button class="discover-btn" data-action="explore-living">
+                        <span>View Projects</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Kitchen -->
+        <section class="interior-section" id="kitchen" data-section="kitchen">
+            <div class="section-content">
+                <div class="isometric-room kitchen-interior">
+                    <div class="floor-grid">
+                        <div class="floor-tile" data-tile="1">
+                            <div class="furniture kitchen-island">
+                                <div class="island-counter"></div>
+                                <div class="island-cabinet"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="2">
+                            <div class="furniture bar-stool">
+                                <div class="stool-top"></div>
+                                <div class="stool-post"></div>
+                                <div class="stool-base"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="3">
+                            <div class="furniture dining-chair">
+                                <div class="dining-back"></div>
+                                <div class="dining-seat"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="4">
+                            <div class="furniture pendant-fixture">
+                                <div class="pendant-shade"></div>
+                                <div class="pendant-cord"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wall wall-left">
+                        <div class="wall-content">
+                            <div class="kitchen-cabinets">
+                                <div class="upper-cabinet"></div>
+                                <div class="lower-cabinet"></div>
+                                <div class="cabinet-handles"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wall wall-right">
+                        <div class="wall-content">
+                            <div class="appliance-wall">
+                                <div class="oven-unit"></div>
+                                <div class="range-hood"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="light-beam beam-1"></div>
+                    <div class="light-beam beam-2"></div>
+                </div>
+
+                <div class="section-info">
+                    <h2 class="section-title">Gourmet Kitchen</h2>
+                    <p class="section-subtitle">Culinary excellence redefined</p>
+                    <button class="discover-btn" data-action="explore-kitchen">
+                        <span>Discover More</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Bedroom -->
+        <section class="interior-section" id="bedroom" data-section="bedroom">
+            <div class="section-content">
+                <div class="isometric-room bedroom-interior">
+                    <div class="floor-grid">
+                        <div class="floor-tile" data-tile="1">
+                            <div class="furniture king-bed">
+                                <div class="bed-headboard"></div>
+                                <div class="bed-mattress"></div>
+                                <div class="bed-frame"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="2">
+                            <div class="furniture nightstand">
+                                <div class="night-top"></div>
+                                <div class="night-drawer"></div>
+                                <div class="night-handle"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="3">
+                            <div class="furniture dresser-unit">
+                                <div class="dresser-top"></div>
+                                <div class="dresser-drawers"></div>
+                            </div>
+                        </div>
+                        <div class="floor-tile" data-tile="4">
+                            <div class="furniture floor-lamp">
+                                <div class="lamp-shade"></div>
+                                <div class="lamp-pole"></div>
+                                <div class="lamp-base"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wall wall-left">
+                        <div class="wall-content">
+                            <div class="bedroom-art">
+                                <div class="art-canvas"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wall wall-right">
+                        <div class="wall-content">
+                            <div class="wardrobe-unit">
+                                <div class="wardrobe-door door-1"></div>
+                                <div class="wardrobe-door door-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="light-beam beam-1"></div>
+                    <div class="light-beam beam-2"></div>
+                </div>
+
+                <div class="section-info">
+                    <h2 class="section-title">Serene Bedroom</h2>
+                    <p class="section-subtitle">Your personal sanctuary</p>
+                    <button class="discover-btn" data-action="explore-bedroom">
+                        <span>See Details</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Contact -->
+        <section class="interior-section" id="contact" data-section="contact">
+            <div class="section-content contact-content">
+                <div class="contact-info">
+                    <h2 class="section-title">Let's Create Together</h2>
+                    <p class="section-subtitle">Transform your space into a masterpiece</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <span class="contact-label">Email</span>
+                            <span class="contact-value">hello@studioluxe.design</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">Phone</span>
+                            <span class="contact-value">+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">Location</span>
+                            <span class="contact-value">New York, NY</span>
+                        </div>
+                    </div>
+
+                    <button class="discover-btn primary">
+                        <span>Start Your Project</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="detail-modal" id="detailModal">
+        <button class="modal-close" id="modalClose">×</button>
+        <div class="modal-content">
+            <div class="modal-image">
+                <div class="image-display"></div>
+            </div>
+            <div class="modal-info">
+                <span class="modal-tag">Featured Project</span>
+                <h3 class="modal-title">Project Title</h3>
+                <p class="modal-description">
+                    Detailed project description goes here. This showcases the beautiful design work
+                    and attention to detail that goes into every Studio Luxe project.
+                </p>
+                <div class="modal-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Area</span>
+                        <span class="spec-value">2,400 sq ft</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Style</span>
+                        <span class="spec-value">Contemporary</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Year</span>
+                        <span class="spec-value">2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-dot active" data-section="home"></div>
+        <div class="progress-dot" data-section="living"></div>
+        <div class="progress-dot" data-section="kitchen"></div>
+        <div class="progress-dot" data-section="bedroom"></div>
+        <div class="progress-dot" data-section="contact"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

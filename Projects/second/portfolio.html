@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Portfolio - Organic & Elegant</title>
+    <style>
+        /* ========================================
+           RESET & BASE STYLES
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --forest-green: #1B3022;
+            --sage-green: #7C9473;
+            --cream: #F9F7F2;
+            --wood-brown: #5D4037;
+            --shadow: rgba(91, 64, 55, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--cream);
+            color: var(--forest-green);
+            overflow-x: hidden;
+            position: relative;
+            /* Subtle paper grain texture */
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px);
+        }
+
+        /* ========================================
+           NAVIGATION - THE VINE
+        ======================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to bottom, var(--forest-green) 0%, var(--forest-green) 70%, transparent 100%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--wood-brown);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transform: translateY(-50%);
+        }
+
+        /* Leaf-shaped Navigation Links */
+        .nav-leaf {
+            position: relative;
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(135deg, #4a7c4e 0%, var(--sage-green) 100%);
+            border-radius: 0 50px 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 6px var(--shadow),
+                inset -2px -2px 4px rgba(0,0,0,0.1),
+                inset 2px 2px 4px rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+
+        .nav-leaf::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 2px;
+            background: var(--wood-brown);
+        }
+
+        .nav-leaf::after {
+            content: '';
+            position: absolute;
+            left: 10%;
+            top: 20%;
+            width: 60%;
+            height: 60%;
+            border-left: 2px solid rgba(255,255,255,0.3);
+            border-radius: 0 0 0 50%;
+        }
+
+        .nav-leaf span {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .nav-leaf:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 6px 12px var(--shadow),
+                inset -2px -2px 4px rgba(0,0,0,0.1),
+                inset 2px 2px 4px rgba(255,255,255,0.3);
+        }
+
+        /* Falling Animation */
+        .nav-leaf.falling {
+            animation: leafFall 0.8s cubic-bezier(0.4, 0.1, 0.6, 0.9) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes leafFall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            25% {
+                transform: translateY(100px) rotate(45deg) scale(0.9);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(250px) rotate(90deg) scale(0.8);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translateY(450px) rotate(160deg) scale(0.6);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(800px) rotate(220deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        .nav-leaf.hidden {
+            display: none;
+        }
+
+        /* ========================================
+           MAIN LAYOUT - TRUNK & CARDS
+        ======================================== */
+        .trunk-container {
+            position: fixed;
+            left: 40px;
+            top: 100px;
+            bottom: 20px;
+            width: 8px;
+            background: linear-gradient(to bottom, var(--wood-brown) 0%, #4a3428 100%);
+            border-radius: 4px;
+            box-shadow: 
+                2px 0 8px rgba(0,0,0,0.2),
+                inset -1px 0 2px rgba(0,0,0,0.3),
+                inset 1px 0 2px rgba(255,255,255,0.1);
+            z-index: 1;
+        }
+
+        .trunk-container::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 0;
+            bottom: 0;
+            width: 12px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.1) 2px,
+                rgba(0,0,0,0.1) 3px
+            );
+            border-radius: 6px;
+        }
+
+        .content-wrapper {
+            margin-left: 120px;
+            margin-right: 60px;
+            padding-top: 120px;
+            padding-bottom: 60px;
+        }
+
+        /* Section Cards */
+        .section-card {
+            position: relative;
+            background: linear-gradient(to bottom right, #f5f3ed, var(--cream));
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 80px;
+            box-shadow: 
+                0 10px 30px var(--shadow),
+                0 1px 3px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+            border: 1px solid rgba(124, 148, 115, 0.1);
+            min-height: 400px;
+            transition: transform 0.3s ease;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            left: -60px;
+            top: 30px;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--wood-brown), var(--sage-green));
+            border-radius: 2px;
+        }
+
+        .section-card:hover {
+            transform: translateX(5px);
+        }
+
+        /* Settled Leaf on Card */
+        .settled-leaf {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(135deg, #4a7c4e 0%, var(--sage-green) 100%);
+            border-radius: 0 50px 50px 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: leafSettle 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            box-shadow: 
+                0 4px 6px var(--shadow),
+                inset -2px -2px 4px rgba(0,0,0,0.1),
+                inset 2px 2px 4px rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+
+        .settled-leaf::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 2px;
+            background: var(--wood-brown);
+        }
+
+        .settled-leaf::after {
+            content: '';
+            position: absolute;
+            left: 10%;
+            top: 20%;
+            width: 60%;
+            height: 60%;
+            border-left: 2px solid rgba(255,255,255,0.3);
+            border-radius: 0 0 0 50%;
+        }
+
+        .settled-leaf span {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .settled-leaf.active {
+            display: flex;
+        }
+
+        @keyframes leafSettle {
+            0% {
+                transform: translateY(-50px) rotate(-20deg) scale(0.3);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(5px) rotate(5deg) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ========================================
+           SECTION STYLING
+        ======================================== */
+        .section-header {
+            font-size: 2.8em;
+            color: var(--forest-green);
+            margin-bottom: 30px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, var(--sage-green), transparent);
+            border-radius: 2px;
+        }
+
+        /* HOME SECTION */
+        #home {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        .hero-title {
+            font-size: 3.5em;
+            color: var(--forest-green);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            color: var(--sage-green);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .hero-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #4a4a4a;
+            max-width: 700px;
+        }
+
+        /* ABOUT SECTION */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .about-text {
+            line-height: 1.9;
+            font-size: 1.05em;
+            color: #4a4a4a;
+        }
+
+        .about-highlights {
+            background: rgba(124, 148, 115, 0.08);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid var(--sage-green);
+        }
+
+        .highlight-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .highlight-icon {
+            width: 12px;
+            height: 12px;
+            background: var(--sage-green);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* SKILLS SECTION */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .skill-item {
+            margin-bottom: 25px;
+        }
+
+        .skill-name {
+            font-size: 1.1em;
+            color: var(--forest-green);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(124, 148, 115, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--sage-green), #4a7c4e);
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* PROJECTS SECTION */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(124, 148, 115, 0.15);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #7C9473 0%, #4a7c4e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px),
+                repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px);
+        }
+
+        .project-image-2 {
+            background: linear-gradient(135deg, #5D4037 0%, #3e2723 100%);
+        }
+
+        .project-image-3 {
+            background: linear-gradient(135deg, #1B3022 0%, #0d1a11 100%);
+        }
+
+        .project-image-4 {
+            background: linear-gradient(135deg, #4a7c4e 0%, #2d5a35 100%);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-type {
+            color: white;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            background: rgba(124, 148, 115, 0.9);
+            border-radius: 20px;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-title {
+            font-size: 1.4em;
+            color: var(--forest-green);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .project-description {
+            line-height: 1.7;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            background: rgba(124, 148, 115, 0.12);
+            color: var(--sage-green);
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 1px solid rgba(124, 148, 115, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--sage-green);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* RESUME SECTION */
+        .resume-timeline {
+            margin-top: 30px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .resume-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--sage-green);
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--sage-green);
+            border-radius: 50%;
+            border: 3px solid var(--cream);
+            box-shadow: 0 0 0 2px var(--sage-green);
+        }
+
+        .timeline-date {
+            font-size: 0.9em;
+            color: var(--sage-green);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 1.3em;
+            color: var(--forest-green);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .timeline-company {
+            font-size: 1em;
+            color: var(--wood-brown);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .timeline-description {
+            line-height: 1.7;
+            color: #4a4a4a;
+        }
+
+        /* CONTACT SECTION */
+        .contact-form {
+            max-width: 600px;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--forest-green);
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(124, 148, 115, 0.3);
+            border-radius: 10px;
+            font-family: 'Georgia', serif;
+            font-size: 1em;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--sage-green);
+            box-shadow: 0 0 0 3px rgba(124, 148, 115, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--sage-green), #4a7c4e);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px var(--shadow);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+        @media (max-width: 968px) {
+            .trunk-container {
+                left: 20px;
+            }
+
+            .content-wrapper {
+                margin-left: 60px;
+                margin-right: 30px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                gap: 20px;
+            }
+
+            .nav-leaf {
+                width: 80px;
+                height: 40px;
+            }
+
+            .nav-leaf span {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .trunk-container {
+                display: none;
+            }
+
+            .content-wrapper {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            .section-card::before {
+                display: none;
+            }
+
+            .section-card {
+                padding: 30px;
+            }
+
+            .hero-title {
+                font-size: 2.5em;
+            }
+
+            .section-header {
+                font-size: 2em;
+            }
+
+            .navbar {
+                gap: 10px;
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px;
+            }
+
+            .nav-leaf {
+                width: 70px;
+                height: 35px;
+            }
+
+            .nav-leaf span {
+                font-size: 11px;
+            }
+        }
+
+        /* ========================================
+           DECORATIVE ELEMENTS
+        ======================================== */
+        .vine-decoration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--sage-green) 1px, transparent 1px),
+                radial-gradient(circle at 80% 70%, var(--sage-green) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Background -->
+    <div class="vine-decoration"></div>
+
+    <!-- Navigation Vine -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-leaf" data-target="home">
+            <span>Home</span>
+        </div>
+        <div class="nav-leaf" data-target="about">
+            <span>About</span>
+        </div>
+        <div class="nav-leaf" data-target="skills">
+            <span>Skills</span>
+        </div>
+        <div class="nav-leaf" data-target="projects">
+            <span>Projects</span>
+        </div>
+        <div class="nav-leaf" data-target="resume">
+            <span>Resume</span>
+        </div>
+        <div class="nav-leaf" data-target="contact">
+            <span>Contact</span>
+        </div>
+    </nav>
+
+    <!-- Vertical Trunk -->
+    <div class="trunk-container"></div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        
+        <!-- HOME SECTION -->
+        <section id="home" class="section-card">
+            <div class="settled-leaf"><span>Home</span></div>
+            <div class="hero-title">Welcome to My Portfolio</div>
+            <div class="hero-subtitle">Growing Ideas into Reality</div>
+            <p class="hero-description">
+                I'm a passionate creative developer who believes in the organic growth of ideas. 
+                Like nature itself, great design evolves through careful nurturing, patient iteration, 
+                and a deep respect for balance and harmony. Explore my work and discover how I blend 
+                technical expertise with artistic vision to create digital experiences that feel 
+                as natural as breathing.
+            </p>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="section-card">
+            <div class="settled-leaf"><span>About</span></div>
+            <h2 class="section-header">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p style="margin-bottom: 20px;">
+                        With over 8 years of experience in frontend development, I specialize in creating 
+                        immersive, user-centric web experiences that stand the test of time. My approach 
+                        is rooted in the principles of sustainable design—building interfaces that are 
+                        not only beautiful but also accessible, performant, and maintainable.
+                    </p>
+                    <p>
+                        I draw inspiration from the natural world, believing that the best interfaces 
+                        mirror the intuitive patterns found in nature. Every project is an opportunity 
+                        to cultivate something meaningful, something that grows with its users and 
+                        adapts to their needs.
+                    </p>
+                </div>
+                <div class="about-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <div>8+ years of professional experience</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <div>Specialization in modern JavaScript frameworks</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <div>Passionate about accessibility & performance</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <div>Strong advocate for sustainable web design</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon"></div>
+                        <div>Continuous learner & open-source contributor</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="section-card">
+            <div class="settled-leaf"><span>Skills</span></div>
+            <h2 class="section-header">Skills & Expertise</h2>
+            <div class="skills-grid">
+                <div>
+                    <div class="skill-item">
+                        <div class="skill-name">HTML5 & CSS3</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="95"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">JavaScript (ES6+)</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="92"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">React & Next.js</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="88"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-item">
+                        <div class="skill-name">Vue.js & Nuxt</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">CSS Animations</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="94"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Responsive Design</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="96"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-item">
+                        <div class="skill-name">UI/UX Design</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="87"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Performance Optimization</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Accessibility (A11y)</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="89"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="section-card">
+            <div class="settled-leaf"><span>Projects</span></div>
+            <h2 class="section-header">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <span class="project-type">Web Application</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">EcoTracker Dashboard</h3>
+                        <p class="project-description">
+                            A comprehensive sustainability tracking platform that helps businesses monitor 
+                            and reduce their carbon footprint. Built with React, D3.js for data visualization, 
+                            and Node.js backend.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">D3.js</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image project-image-2">
+                        <div class="project-overlay">
+                            <span class="project-type">E-Commerce</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">GreenMarket Online</h3>
+                        <p class="project-description">
+                            An organic products marketplace featuring advanced filtering, real-time inventory 
+                            management, and seamless checkout experience. Emphasizes sustainable packaging 
+                            and local sourcing.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Tailwind</span>
+                            <span class="tag">Stripe</span>
+                            <span class="tag">Firebase</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image project-image-3">
+                        <div class="project-overlay">
+                            <span class="project-type">Interactive Experience</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Forest Explorer VR</h3>
+                        <p class="project-description">
+                            An immersive educational experience that takes users through different forest 
+                            ecosystems. Features 3D animations, ambient soundscapes, and interactive 
+                            learning modules.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Three.js</span>
+                            <span class="tag">WebGL</span>
+                            <span class="tag">GSAP</span>
+                            <span class="tag">Web Audio API</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image project-image-4">
+                        <div class="project-overlay">
+                            <span class="project-type">Mobile App</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">PlantCare Companion</h3>
+                        <p class="project-description">
+                            A progressive web app that helps users care for their indoor plants with 
+                            personalized watering schedules, growth tracking, and AI-powered plant 
+                            identification.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React Native</span>
+                            <span class="tag">TensorFlow.js</span>
+                            <span class="tag">PWA</span>
+                            <span class="tag">REST API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESUME SECTION -->
+        <section id="resume" class="section-card">
+            <div class="settled-leaf"><span>Resume</span></div>
+            <h2 class="section-header">Professional Journey</h2>
+            <div class="resume-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021 - Present</div>
+                    <div class="timeline-title">Senior Frontend Developer</div>
+                    <div class="timeline-company">EcoTech Solutions</div>
+                    <div class="timeline-description">
+                        Leading a team of 5 developers in creating sustainable web applications. 
+                        Spearheaded the redesign of the company's flagship product, resulting in 
+                        a 40% increase in user engagement and a 25% improvement in performance metrics.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2018 - 2021</div>
+                    <div class="timeline-title">Frontend Developer</div>
+                    <div class="timeline-company">Digital Harvest Agency</div>
+                    <div class="timeline-description">
+                        Developed custom web solutions for clients across various industries. 
+                        Specialized in creating animated, interactive experiences using modern 
+                        JavaScript frameworks and CSS animations.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2016 - 2018</div>
+                    <div class="timeline-title">Junior Web Developer</div>
+                    <div class="timeline-company">GreenLeaf Studios</div>
+                    <div class="timeline-description">
+                        Started my professional journey building responsive websites and learning 
+                        the fundamentals of user-centered design. Contributed to over 30 successful 
+                        project launches during this period.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="section-card">
+            <div class="settled-leaf"><span>Contact</span></div>
+            <h2 class="section-header">Let's Connect</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label class="form-label" for="name">Your Name</label>
+                    <input type="text" id="name" class="form-input" required 
+                           placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" required 
+                           placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Message</label>
+                    <textarea id="message" class="form-textarea" required 
+                              placeholder="Share your thoughts, ideas, or project details..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        // ========================================
+        // NAVIGATION & ANIMATION LOGIC
+        // ========================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLeaves = document.querySelectorAll('.nav-leaf');
+            const sections = document.querySelectorAll('.section-card');
+            
+            // Initialize skill bars animation
+            initializeSkillBars();
+
+            // Navigation click handler with falling leaf effect
+            navLeaves.forEach(leaf => {
+                leaf.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (!targetSection) return;
+
+                    // Step 1: Trigger falling animation
+                    this.classList.add('falling');
+
+                    // Step 2: Smooth scroll to target section
+                    setTimeout(() => {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 100);
+
+                    // Step 3: Hide the fallen leaf from navbar
+                    setTimeout(() => {
+                        this.classList.add('hidden');
+                    }, 800);
+
+                    // Step 4: Show settled leaf on target card (without removing others)
+                    setTimeout(() => {
+                        // Activate the settled leaf on target section
+                        const settledLeaf = targetSection.querySelector('.settled-leaf');
+                        if (settledLeaf) {
+                            settledLeaf.classList.add('active');
+                        }
+                    }, 1400);
+                });
+            });
+
+            // Contact form submission
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // Simple validation feedback
+                    alert(`Thank you, ${name}! Your message has been received. I'll get back to you at ${email} soon.`);
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+
+            // Skill bars animation on scroll
+            function initializeSkillBars() {
+                const skillsSection = document.getElementById('skills');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateSkillBars();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                if (skillsSection) {
+                    observer.observe(skillsSection);
+                }
+            }
+
+            function animateSkillBars() {
+                const progressBars = document.querySelectorAll('.skill-progress');
+                progressBars.forEach(bar => {
+                    const progress = bar.getAttribute('data-progress');
+                    setTimeout(() => {
+                        bar.style.width = progress + '%';
+                    }, 200);
+                });
+            }
+
+            // Initialize first settled leaf on home section
+            // Removed - leaves should only settle when clicked
+        });
+
+        // ========================================
+        // RESET ANIMATION STATE ON PAGE REFRESH
+        // ========================================
+        window.addEventListener('beforeunload', function() {
+            // Reset all leaves to visible state
+            document.querySelectorAll('.nav-leaf').forEach(leaf => {
+                leaf.classList.remove('falling', 'hidden');
+            });
+            
+            // Reset all settled leaves
+            document.querySelectorAll('.settled-leaf').forEach(leaf => {
+                leaf.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
