@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM-Learning</title>
+</head>
+<body>
+    <script>
+        // console.log(display2)
+        const redP = document.createElement("p")
+        redP.textContent = "hey I am red p"
+        redP.style.color = "red"
+        document.body.appendChild(redP)
+
+        const bluh3 = document.createElement("h3")
+        bluh3.textContent = "hey I am blue h3"
+        bluh3.style.color = "blue"
+        document.body.appendChild(bluh3)
+
+        const div = document.createElement("div")
+        div.style.color = "pink"
+        div.style.margin = "5px"
+        div.style.border = "5px solid black"; 
+
+        const h1 = document.createElement("h1")
+        h1.textContent = "hey I'm in div"
+        const p = document.createElement("p")
+        p.textContent = "Me too"
+        document.body.appendChild(div)
+        div.appendChild(h1)
+        div.appendChild(p)
+
+    </script>
+</body>
+</html>

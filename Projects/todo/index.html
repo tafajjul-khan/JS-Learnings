@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<body>
+    <h1>Todo List App</h1>
+    <div id="div">
+        <input id="getTodo" type="text">
+        <button id="addTodoBtn">Add</button>
+
+    </div>
+    <script>
+        const getTodo = document.getElementById("getTodo")
+        const addTodoBtn = document.getElementById("addTodoBtn")
+
+        // understand dom deeply an then work on it 
+        addTodoBtn.addEventListener("click", () => {
+            const data = getTodo.value
+            // console.log(data)
+            const valueInput = document.createElement("input")
+            const editBtn = document.createElement("button")
+            editBtn.id = "edtBtn"
+            editBtn.value = "Edt"
+            const dlttBtn = document.createElement("button")
+            dlttBtn.id = "dltBtn"
+            dlttBtn.value = "Dlt"
+
+            valueInput.id = "valueInput"
+            valueInput.value = data
+            valueInput.readOnly = true
+            document.body.appendChild(valueInput)
+            document.body.appendChild(editBtn)
+            document.body.appendChild(dlttBtn)
+            console.log(valueInput)
+        })
+
+    </script>
+</body>
+</html>
