@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Changer</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container{
+            display: flex;
+            /* background-color: white; */
+            height: 600px;         /* Requires a height to see the effect */
+            align-items: flex-end;
+        }
+        .container button {
+            background-color: burlywood;
+            margin: 10px;
+            padding: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Basic Background Changer</h1>
+        <div class="container">
+            <button onclick="changeBackgroundColor('red')" >Red</button>
+            <button onclick="changeBackgroundColor('yellow')">Yellow</button>
+            <button  onclick="changeBackgroundColor('green')">Green</button>
+            <button  onclick="changeBackgroundColor('black')">Black</button>
+            <button  onclick="changeBackgroundColor('blue')">Blue</button>
+            <button  onclick="changeBackgroundColor('')">Clear</button>
+        </div>
+        <script>
+            function changeBackgroundColor (color)  {
+                document.body.style.backgroundColor = (color)
+            }
+            changeBackgroundColor()
+
+            function clearBackgroundColor(string){
+                document.body.style.backgroundColor = (string)
+            }
+        </script>
+    </header>
+</body>
+</html>
